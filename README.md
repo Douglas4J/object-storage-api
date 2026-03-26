@@ -19,7 +19,6 @@ A nova abordagem separa responsabilidades utilizando Object Storage.
 
 ## 🏗️ Arquitetura
 Cliente → API → Garage (Object Storage)
-↘
 PostgreSQL (metadados)
 
 
