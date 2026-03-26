@@ -10,10 +10,10 @@
 		<relativePath/>
 
 	</parent>
-	<groupId>object-storage</groupId>
-	<artifactId>object-storage</artifactId>
+	<groupId>object-storage-api</groupId>
+	<artifactId>object-storage-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>object-storage</name>
+	<name>object-storage-api</name>
 	<description>Arquitetura Object Storage utilizando Garage para uploads de arquivos</description>
 
 	<properties>
@@ -154,7 +154,7 @@
 			</plugin>
 		</plugins>
 
-		<finalName>object-storage</finalName>
+		<finalName>object-storage-api</finalName>
 	</build>
 
 </project>
