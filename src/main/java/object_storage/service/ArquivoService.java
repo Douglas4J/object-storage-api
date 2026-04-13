@@ -7,9 +7,12 @@ import object_storage.repository.ArquivoRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectRequest;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.util.UUID;
@@ -65,7 +68,7 @@ public class ArquivoService {
     }
 
     private String generateKey(String fileName) {
-        return "batatas/" + UUID.randomUUID() + "-" + fileName;
+        return "sgt-bucket/" + UUID.randomUUID() + "-" + fileName;
     }
 
     private String buildUrl(String key) {
@@ -87,5 +90,18 @@ public class ArquivoService {
 
         // Remove do banco
         arquivoRepository.delete(arquivo);
+    }
+
+    // Só vai retornar 200 se o id do arquivo for do bucket correto
+    public ResponseInputStream<GetObjectResponse> download(Long id) {
+        Arquivo arquivo = arquivoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Arquivo não encontrado"));
+
+        GetObjectRequest request = GetObjectRequest.builder()
+                .bucket(arquivo.getBucket())
+                .key(arquivo.getKey())
+                .build();
+
+        return s3Client.getObject(request);
     }
 }
